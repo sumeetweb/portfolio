@@ -1,0 +1,9 @@
+# Cloudflare Pages response headers
+# https://developers.cloudflare.com/pages/configuration/headers/
+#
+# RFC 8288 Link headers advertising machine-readable resources to agents.
+# rel="describedby" (RFC 6903) points at the agents.md site summary;
+# the feed and sitemap use their standard registered relations.
+
+/*
+  Link: </agents.md>; rel="describedby"; type="text/markdown", </rss.xml>; rel="alternate"; type="application/rss+xml", </sitemap.xml>; rel="sitemap"; type="application/xml"
