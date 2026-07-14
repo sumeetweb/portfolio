@@ -32,8 +32,12 @@
 <meta property="og:url" content="{{ .Permalink }}">
 <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
 <meta property="og:locale" content="en_US">
-{{ with .Site.Params.image }}<meta property="og:image" content="{{ . | absURL }}">{{ end }}
-<meta name="twitter:card" content="summary">
+{{- $ogImage := .Params.image | default .Site.Params.image -}}
+{{- with $ogImage }}
+<meta property="og:image" content="{{ . | absURL }}">
+<meta name="twitter:image" content="{{ . | absURL }}">
+{{- end }}
+<meta name="twitter:card" content="{{ if $ogImage }}summary_large_image{{ else }}summary{{ end }}">
 <meta name="twitter:site" content="{{ .Site.Params.twitterHandle }}">
 <meta name="twitter:creator" content="{{ .Site.Params.twitterHandle }}">
 <meta name="twitter:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} — {{ .Site.Params.name }}{{ end }}">
