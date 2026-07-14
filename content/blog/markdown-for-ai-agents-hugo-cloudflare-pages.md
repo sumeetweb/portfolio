@@ -2,6 +2,7 @@
 title: "Serve Markdown to AI Agents from Hugo on Cloudflare Pages (Free Plan)"
 date: 2026-07-14
 description: "Content-negotiate on the Accept header so agents and CLIs get clean Markdown while humans still get HTML — using Hugo output formats and a single Cloudflare Pages Function, no paid plan required."
+image: "images/blog/markdown-for-ai-agents.png"
 ---
 
 AI agents, LLM crawlers, and CLI tools don't want your HTML. They want the *content* — headings, lists, links — without the nav bars, the theme toggles, and the 40 KB of markup around it. The polite way to give it to them is [content negotiation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Content_negotiation): when a client sends `Accept: text/markdown`, hand back Markdown; otherwise, serve HTML like normal.
