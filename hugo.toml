@@ -74,9 +74,9 @@ enableRobotsTXT = true
     weight = 80
 
 [outputs]
-  home = ["HTML", "RSS", "AGENTS"]
-  section = ["HTML"]
-  page = ["HTML"]
+  home = ["HTML", "RSS", "AGENTS", "MARKDOWN"]
+  section = ["HTML", "MARKDOWN"]
+  page = ["HTML", "MARKDOWN"]
 
 [outputFormats.RSS]
   mediaType = "application/rss+xml"
@@ -85,6 +85,15 @@ enableRobotsTXT = true
 [outputFormats.AGENTS]
   mediaType = "text/markdown"
   baseName = "agents"
+  isPlainText = true
+  notAlternative = true
+
+# Markdown representation of each page, served via content negotiation
+# (Accept: text/markdown) by functions/_middleware.js on Cloudflare Pages.
+# baseName "index" -> <path>/index.md, sitting beside index.html.
+[outputFormats.MARKDOWN]
+  mediaType = "text/markdown"
+  baseName = "index"
   isPlainText = true
   notAlternative = true
 

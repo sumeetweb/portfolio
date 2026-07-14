@@ -35,8 +35,26 @@ Generates the static site into `public/`.
 content/    — site content (Markdown)
 layouts/    — Hugo templates and partials
 static/     — static assets (CSS, JS) copied as-is to the site root
+functions/  — Cloudflare Pages Functions (edge middleware)
 public/     — generated output (build artifact, not source)
 hugo.toml   — site configuration
+```
+
+## Markdown content negotiation
+
+Every page is also emitted as Markdown (Hugo's `MARKDOWN` output format →
+`<path>/index.md`, via the `*.markdown.md` layouts). A request with
+`Accept: text/markdown` is served that Markdown representation instead of HTML —
+handy for LLM agents and CLI tools. Browsers (and anything not explicitly asking
+for `text/markdown`) get HTML unchanged.
+
+The negotiation runs at the edge in `functions/_middleware.js` (Cloudflare Pages
+auto-detects the `functions/` dir). Markdown responses carry
+`Content-Type: text/markdown` and an `x-markdown-tokens` header with an approximate
+token count. Verify against a deployment:
+
+```sh
+curl -sD- -H 'Accept: text/markdown' https://www.sumeetnaik.com/blog/ | head
 ```
 
 ## License
