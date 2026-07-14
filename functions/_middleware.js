@@ -39,8 +39,12 @@ export async function onRequest(context) {
   // Fetch the static .md asset that Hugo built for this page.
   const res = await next(new Request(mdUrl, request));
 
-  // No markdown variant for this path (e.g. 404) -> fall back to HTML.
-  if (!res.ok) {
+  // No markdown variant for this path -> fall back to HTML. A missing asset can
+  // surface as a 404 (production) or as an HTML fallback served with status 200
+  // (wrangler dev serves the root index.html), so reject anything that isn't
+  // actually markdown rather than trusting the status alone.
+  const fetchedType = res.headers.get("content-type") || "";
+  if (!res.ok || /html/i.test(fetchedType)) {
     return next();
   }
 
