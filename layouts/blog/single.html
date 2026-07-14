@@ -3,6 +3,9 @@
   <a href="{{ .Parent.RelPermalink }}" class="back-link">← Blog</a>
   <h1 class="page-title mb-6">{{ .Title }}</h1>
   <p class="post-meta">{{ .Date.Format "January 2, 2006" }}</p>
+  {{ with .Params.image }}
+  <img class="post-cover" src="{{ . | relURL }}" alt="{{ $.Title }}" width="1200" height="630" loading="lazy" decoding="async">
+  {{ end }}
   <div class="post-content">
     {{ .Content }}
   </div>

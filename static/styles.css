@@ -496,6 +496,16 @@ body { margin: 0; -webkit-font-smoothing: antialiased; }
   color: var(--muted);
   margin: 0 0 32px;
 }
+.post-cover {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1200 / 630;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin: 0 0 32px;
+}
 .post-content { font-size: 16px; }
 .post-content p { margin: 0 0 20px; }
 .post-content h2 {
