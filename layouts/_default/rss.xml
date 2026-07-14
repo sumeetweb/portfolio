@@ -1,0 +1,19 @@
+{{- $blog := .Site.GetPage "blog" -}}
+{{ printf "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" | safeHTML }}
+<rss version="2.0">
+  <channel>
+    <title>{{ .Site.Params.name }} — Blog</title>
+    <link>{{ $blog.Permalink }}</link>
+    <description>Notes on backend systems, cloud infrastructure, and AI-assisted development.</description>
+    <language>{{ .Site.Language.Lang }}</language>
+    <lastBuildDate>{{ now.Format "Mon, 02 Jan 2006 15:04:05 GMT" }}</lastBuildDate>
+    {{ range first 20 $blog.RegularPages }}
+    <item>
+      <title>{{ .Title }}</title>
+      <link>{{ .Permalink }}</link>
+      <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 GMT" }}</pubDate>
+      <description>{{ .Description }}</description>
+    </item>
+    {{ end }}
+  </channel>
+</rss>

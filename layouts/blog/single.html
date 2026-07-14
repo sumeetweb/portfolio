@@ -1,0 +1,11 @@
+{{ define "main" }}
+<section class="screen" data-page="blog-post" aria-label="{{ .Title }}">
+  <a href="{{ .Parent.RelPermalink }}" class="back-link">← Blog</a>
+  <h1 class="page-title mb-6">{{ .Title }}</h1>
+  <p class="post-meta">{{ .Date.Format "January 2, 2006" }}</p>
+  <div class="post-content">
+    {{ .Content }}
+  </div>
+  {{ partial "giscus.html" . }}
+</section>
+{{ end }}

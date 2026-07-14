@@ -1,0 +1,94 @@
+baseURL = "https://www.sumeetnaik.com/"
+locale = "en-US"
+title = "Sumeet Naik — Backend Engineer"
+publishDir = "public"
+disableKinds = ["taxonomy", "term"]
+
+enableRobotsTXT = true
+
+[pagination]
+  pagerSize = 10
+
+[params]
+  name = "Sumeet Naik"
+  role = "Backend Engineer"
+  description = "Sumeet Naik is a backend engineer building APIs, distributed systems, and cloud infrastructure. Writing on backend systems, self-hosting, and AI-assisted development."
+  twitterHandle = "@sumeetweb"
+  image = "images/avatar.jpg"
+  eyebrow = "Backend Engineer"
+  heroTitle = "APIs and infrastructure, built to not wake you at 3am."
+  intro = "I'm Sumeet Naik. I enjoy designing reliable systems, automating workflows, and turning ideas into products. My work spans backend services, distributed systems, cloud platforms, and modern AI-assisted development."
+  introMuted = "Currently exploring AI-native engineering, self-hosted infrastructure, and building products in public."
+  exploring = "AI-native engineering, self-hosted infrastructure, building products in public."
+  summary = "Builds APIs, cloud infrastructure, and developer tools. Enjoys designing reliable systems, automating workflows, and turning ideas into products. Work spans backend services, distributed systems, cloud platforms, and modern AI-assisted development."
+  github = "https://github.com/sumeetweb"
+  twitter = "https://x.com/sumeetweb"
+  linkedin = "https://www.linkedin.com/in/sumeetnaik19/"
+  kofi = "https://ko-fi.com/sumeet"
+
+  [[params.focus]]
+    text = "AI-assisted software development"
+  [[params.focus]]
+    text = "Backend systems"
+  [[params.focus]]
+    text = "Cloud infrastructure and automation"
+  [[params.focus]]
+    text = "Self-hosted platforms"
+  [[params.focus]]
+    text = "Building products in public"
+
+  [params.giscus]
+    repo = "sumeetweb/portfolio"
+    repoId = "R_kgDOTM4VuA"
+    category = "Announcements"
+    categoryId = "DIC_kwDOTM4VuM4DAj86"
+
+[menus]
+  [[menus.main]]
+    name = "Home"
+    pageRef = "/"
+    weight = 10
+  [[menus.main]]
+    name = "Blog"
+    pageRef = "/blog"
+    weight = 20
+  [[menus.main]]
+    name = "Projects"
+    pageRef = "/projects"
+    weight = 30
+  [[menus.main]]
+    name = "Bookshelf"
+    pageRef = "/bookshelf"
+    weight = 50
+  [[menus.main]]
+    name = "Now"
+    pageRef = "/now"
+    weight = 60
+  [[menus.main]]
+    name = "Uses"
+    pageRef = "/uses"
+    weight = 70
+  [[menus.main]]
+    name = "Resume"
+    pageRef = "/resume"
+    weight = 80
+
+[outputs]
+  home = ["HTML", "RSS", "AGENTS"]
+  section = ["HTML"]
+  page = ["HTML"]
+
+[outputFormats.RSS]
+  mediaType = "application/rss+xml"
+  baseName = "rss"
+
+[outputFormats.AGENTS]
+  mediaType = "text/markdown"
+  baseName = "agents"
+  isPlainText = true
+  notAlternative = true
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true

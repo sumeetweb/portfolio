@@ -1,0 +1,35 @@
+{{ define "main" }}
+<section class="screen" data-page="resume" aria-label="Resume">
+  <div class="row-between mb-6">
+    <h1 class="page-title">{{ .Title }}</h1>
+    <span class="resume-note">{{ .Params.note }}</span>
+  </div>
+  <p class="resume-sub">{{ .Params.sub }}</p>
+
+  <h2 class="section-label mb-14">Experience</h2>
+  {{ $jobs := .Params.jobs }}
+  {{ range $i, $job := $jobs }}
+  <div class="{{ if eq (add $i 1) (len $jobs) }}resume-job-last{{ else }}resume-job{{ end }}">
+    <div class="job-head">
+      <p class="job-title">{{ $job.title }}</p>
+      <span class="job-date">{{ $job.dateRange }}</span>
+    </div>
+    <p class="job-meta">{{ $job.meta }}</p>
+    <ul class="job-points">
+      {{ range $job.points }}<li>{{ . }}</li>{{ end }}
+    </ul>
+  </div>
+  {{ end }}
+
+  <h2 class="section-label mb-14">Skills</h2>
+  <div class="skill-row">
+    {{ range .Params.skills }}<span class="skill">{{ . }}</span>{{ end }}
+  </div>
+
+  <h2 class="section-label mb-14">Education</h2>
+  <div class="edu-row">
+    <p class="edu-degree">{{ .Params.education.degree }}</p>
+    <span class="edu-date">{{ .Params.education.dateRange }}</span>
+  </div>
+</section>
+{{ end }}

@@ -1,0 +1,10 @@
+{{ define "main" }}
+<section class="screen" data-page="now" aria-label="Now">
+  <h1 class="page-title mb-6">{{ .Title }}</h1>
+  <p class="now-meta">{{ .Params.metaNote }}</p>
+  {{ range $i, $s := .Params.sections }}
+  <h2 class="section-label mb-10">{{ $s.heading }}</h2>
+  <p class="now-body{{ if eq (add $i 1) (len $.Params.sections) }} mb-0{{ end }}">{{ $s.body | markdownify }}</p>
+  {{ end }}
+</section>
+{{ end }}

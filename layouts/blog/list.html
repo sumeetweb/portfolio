@@ -1,0 +1,33 @@
+{{ define "main" }}
+<section class="screen" data-page="blog" aria-label="Blog">
+  <div class="row-between mb-6">
+    <h1 class="page-title">{{ .Title }}</h1>
+    <a href="{{ "rss.xml" | relURL }}" class="link-mono-accent">RSS</a>
+  </div>
+  <p class="lead">{{ .Params.lead }}</p>
+
+  {{ $paginator := .Paginate (.Pages.ByDate.Reverse) }}
+  {{ range $paginator.Pages.GroupByDate "2006" }}
+  <h2 class="section-label mb-8">{{ .Key }}</h2>
+  <div class="post-list post-list--gap">
+    {{ range .Pages }}
+    <a href="{{ .RelPermalink }}" class="post-row" style="text-decoration:none;color:inherit;">
+      <span class="post-date">{{ .Date.Format "Jan 02" }}</span>
+      <div>
+        <p class="post-title">{{ .Title }}</p>
+        <p class="post-desc">{{ .Description }}</p>
+      </div>
+    </a>
+    {{ end }}
+  </div>
+  {{ end }}
+
+  {{ if gt $paginator.TotalPages 1 }}
+  <div class="row-between">
+    {{ if $paginator.HasPrev }}<a href="{{ $paginator.Prev.URL }}" class="link-mono-accent">← Newer</a>{{ else }}<span></span>{{ end }}
+    <span class="post-date">Page {{ $paginator.PageNumber }} of {{ $paginator.TotalPages }}</span>
+    {{ if $paginator.HasNext }}<a href="{{ $paginator.Next.URL }}" class="link-mono-accent">Older →</a>{{ else }}<span></span>{{ end }}
+  </div>
+  {{ end }}
+</section>
+{{ end }}

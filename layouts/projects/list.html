@@ -1,0 +1,20 @@
+{{ define "main" }}
+<section class="screen" data-page="projects" aria-label="Projects">
+  <h1 class="page-title mb-6">{{ .Title }}</h1>
+  <p class="lead">{{ .Params.lead }}</p>
+  <div class="project-grid">
+    {{ range .Pages.ByWeight }}
+    <div class="project-card">
+      <div class="project-head">
+        <h2 class="project-name">{{ .Title }}</h2>
+        <a href="{{ .Params.source }}" target="_blank" rel="noopener" class="link-source">source ↗</a>
+      </div>
+      <p class="project-desc">{{ .Params.description }}</p>
+      <div class="tag-row">
+        {{ range .Params.tags }}<span class="tag">{{ . }}</span>{{ end }}
+      </div>
+    </div>
+    {{ end }}
+  </div>
+</section>
+{{ end }}

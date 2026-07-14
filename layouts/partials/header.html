@@ -1,0 +1,11 @@
+<header class="site-header">
+  <div class="header-top">
+    <a href="{{ "/" | relURL }}" class="brand">{{ .Site.Params.name }}</a>
+    <button type="button" class="theme-toggle" id="theme-toggle">dark</button>
+  </div>
+  <nav class="nav">
+    {{ range .Site.Menus.main }}
+    <a href="{{ .URL | relURL }}" class="nav-link{{ if $.IsMenuCurrent "main" . }} active{{ end }}">{{ .Name }}</a>
+    {{ end }}
+  </nav>
+</header>

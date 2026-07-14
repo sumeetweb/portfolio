@@ -1,0 +1,37 @@
+{{ define "main" }}
+<section class="screen" data-page="home" aria-label="Home">
+  <p class="eyebrow">{{ .Site.Params.eyebrow }}</p>
+  <h1 class="hero-title">{{ .Site.Params.heroTitle }}</h1>
+  <p class="intro">{{ .Site.Params.intro }}</p>
+  <p class="intro-muted">{{ .Site.Params.introMuted }}</p>
+
+  <h2 class="section-label mb-14">Current focus</h2>
+  <ul class="focus-list">
+    {{ range .Site.Params.focus }}
+    <li class="focus-item"><span class="focus-arrow">›</span>{{ .text }}</li>
+    {{ end }}
+  </ul>
+
+  {{ $blog := .Site.GetPage "blog" }}
+  {{ if $blog }}
+  <div class="row-between mb-14">
+    <h2 class="section-label">Recent writing</h2>
+    <a href="{{ $blog.RelPermalink }}" class="link-more">all posts →</a>
+  </div>
+  <div class="writing-list">
+    {{ range first 3 $blog.RegularPages }}
+    <a href="{{ .RelPermalink }}" class="writing-row">
+      <span class="writing-date">{{ .Date.Format "Jan 2006" }}</span>
+      <span>{{ .Title }}</span>
+    </a>
+    {{ end }}
+  </div>
+  {{ end }}
+
+  <div class="social-row">
+    <a href="{{ .Site.Params.github }}" target="_blank" rel="noopener" class="link-accent">GitHub ↗</a>
+    <a href="{{ .Site.Params.twitter }}" target="_blank" rel="noopener" class="link-accent">X / Twitter ↗</a>
+    <a href="{{ "/resume/" | relURL }}" class="link-accent">Resume →</a>
+  </div>
+</section>
+{{ end }}

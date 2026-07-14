@@ -1,0 +1,81 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<script>
+(function () {
+  var t;
+  try { t = localStorage.getItem('sn-theme'); } catch (e) { t = null; }
+  if (t !== 'light' && t !== 'dark') {
+    t = (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+  }
+  document.documentElement.dataset.theme = t;
+})();
+</script>
+<!-- keep in sync with --bg/--fg in styles.css: paints correct colors before that external stylesheet loads -->
+<style>
+  html { transition: background 0.2s ease, color 0.2s ease; }
+  html[data-theme="dark"] { background: #131312; color: #e9e7e2; color-scheme: dark; }
+  html[data-theme="light"] { background: #faf9f7; color: #1d1c1a; color-scheme: light; }
+</style>
+<title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} — {{ .Site.Params.name }}{{ end }}</title>
+{{- $desc := .Description -}}
+{{- if not $desc }}{{ $desc = .Params.lead }}{{ end -}}
+{{- if not $desc }}{{ $desc = .Summary | plainify | truncate 160 }}{{ end -}}
+{{- if or .IsHome (not $desc) }}{{ $desc = .Site.Params.description }}{{ end }}
+<meta name="description" content="{{ $desc }}">
+<meta name="author" content="{{ .Site.Params.name }}">
+<link rel="canonical" href="{{ .Permalink }}">
+<meta property="og:site_name" content="{{ .Site.Title }}">
+<meta property="og:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} — {{ .Site.Params.name }}{{ end }}">
+<meta property="og:description" content="{{ $desc }}">
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+<meta property="og:locale" content="en_US">
+{{ with .Site.Params.image }}<meta property="og:image" content="{{ . | absURL }}">{{ end }}
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="{{ .Site.Params.twitterHandle }}">
+<meta name="twitter:creator" content="{{ .Site.Params.twitterHandle }}">
+<meta name="twitter:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} — {{ .Site.Params.name }}{{ end }}">
+<meta name="twitter:description" content="{{ $desc }}">
+{{ if .IsHome }}
+{{- $sameAs := slice .Site.Params.github .Site.Params.twitter -}}
+{{- with .Site.Params.linkedin }}{{ $sameAs = $sameAs | append . }}{{ end -}}
+{{- $person := dict
+  "@type" "Person"
+  "@id" (printf "%s#person" .Site.BaseURL)
+  "name" .Site.Params.name
+  "url" .Site.BaseURL
+  "jobTitle" .Site.Params.role
+  "description" .Site.Params.description
+  "sameAs" $sameAs
+-}}
+{{- with .Site.Params.image }}{{ $person = merge $person (dict "image" (. | absURL)) }}{{ end -}}
+{{- $website := dict
+  "@type" "WebSite"
+  "@id" (printf "%s#website" .Site.BaseURL)
+  "url" .Site.BaseURL
+  "name" .Site.Params.name
+  "description" .Site.Params.description
+  "publisher" (dict "@id" (printf "%s#person" .Site.BaseURL))
+-}}
+<script type="application/ld+json">{{ dict "@context" "https://schema.org" "@graph" (slice $person $website) | jsonify | safeJS }}</script>
+{{ end }}
+{{ if and .IsPage (eq .Section "blog") }}
+{{- $post := dict
+  "@context" "https://schema.org"
+  "@type" "BlogPosting"
+  "headline" .Title
+  "description" $desc
+  "url" .Permalink
+  "datePublished" (.Date.Format "2006-01-02")
+  "dateModified" (.Lastmod.Format "2006-01-02")
+  "mainEntityOfPage" (dict "@type" "WebPage" "@id" .Permalink)
+  "author" (dict "@type" "Person" "@id" (printf "%s#person" .Site.BaseURL) "name" .Site.Params.name "url" .Site.BaseURL)
+-}}
+<script type="application/ld+json">{{ $post | jsonify | safeJS }}</script>
+{{ end }}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ "styles.css" | relURL }}">
+<link rel="alternate" type="application/rss+xml" title="{{ .Site.Title }}" href="{{ "rss.xml" | relURL }}">

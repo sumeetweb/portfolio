@@ -1,0 +1,24 @@
+<div class="post-comments" id="giscus-comments"></div>
+<script>
+(function () {
+  var mount = document.getElementById('giscus-comments');
+  var theme = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
+  var script = document.createElement('script');
+  script.src = 'https://giscus.app/client.js';
+  script.setAttribute('data-repo', '{{ .Site.Params.giscus.repo }}');
+  script.setAttribute('data-repo-id', '{{ .Site.Params.giscus.repoId }}');
+  script.setAttribute('data-category', '{{ .Site.Params.giscus.category }}');
+  script.setAttribute('data-category-id', '{{ .Site.Params.giscus.categoryId }}');
+  script.setAttribute('data-mapping', 'pathname');
+  script.setAttribute('data-strict', '0');
+  script.setAttribute('data-reactions-enabled', '1');
+  script.setAttribute('data-emit-metadata', '0');
+  script.setAttribute('data-input-position', 'top');
+  script.setAttribute('data-theme', theme);
+  script.setAttribute('data-lang', 'en');
+  script.setAttribute('data-loading', 'lazy');
+  script.crossOrigin = 'anonymous';
+  script.async = true;
+  mount.appendChild(script);
+})();
+</script>

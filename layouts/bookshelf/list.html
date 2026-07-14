@@ -1,0 +1,39 @@
+{{ define "main" }}
+<section class="screen" data-page="bookshelf" aria-label="Bookshelf">
+  <h1 class="page-title mb-6">{{ .Title }}</h1>
+  <p class="lead">{{ .Params.lead }}</p>
+
+  {{ if .Params.bucketList }}
+  <h2 class="section-label mb-8">Bucket List</h2>
+  <div class="book-list">
+    {{ range .Params.bucketList }}
+    <div class="book">
+      <p class="book-title">{{ if .link }}<a href="{{ .link }}" target="_blank" rel="noopener">{{ .title }}</a>{{ else }}{{ .title }}{{ end }}</p>
+    </div>
+    {{ end }}
+  </div>
+  {{ end }}
+
+  {{ if .Params.ongoing }}
+  <h2 class="section-label mb-8">Ongoing</h2>
+  <div class="book-list">
+    {{ range .Params.ongoing }}
+    <div class="book">
+      <p class="book-title">{{ if .link }}<a href="{{ .link }}" target="_blank" rel="noopener">{{ .title }}</a>{{ else }}{{ .title }}{{ end }}</p>
+    </div>
+    {{ end }}
+  </div>
+  {{ end }}
+
+  {{ range .Params.years }}
+  <h2 class="section-label mb-8">{{ .year }}</h2>
+  <div class="book-list">
+    {{ range .books }}
+    <div class="book">
+      <p class="book-title">{{ if .link }}<a href="{{ .link }}" target="_blank" rel="noopener">{{ .title }}</a>{{ else }}{{ .title }}{{ end }}</p>
+    </div>
+    {{ end }}
+  </div>
+  {{ end }}
+</section>
+{{ end }}
