@@ -1,6 +1,6 @@
 baseURL = "https://www.sumeetnaik.com/"
 locale = "en-US"
-title = "Sumeet Naik — Backend Engineer"
+title = "Sumeet Naik"
 publishDir = "public"
 disableKinds = ["taxonomy", "term"]
 

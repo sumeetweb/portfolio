@@ -6,7 +6,6 @@ Personal website and blog, built with [Hugo](https://gohugo.io/). Includes a blo
 
 - **Blog** (`content/blog`) — longer posts on backend systems, infrastructure, and engineering practices
 - **Projects** (`content/projects`) — showcase of side projects
-- **Notes** (`content/notes`) — short-form technical notes
 - **Bookshelf** (`content/bookshelf`) — book notes and recommendations
 - **Now** / **Uses** / **Resume** — status page, tools/setup page, and resume
 
