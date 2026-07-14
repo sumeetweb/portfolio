@@ -8,7 +8,9 @@ AI agents, LLM crawlers, and CLI tools don't want your HTML. They want the *cont
 
 The catch: content negotiation branches on a **request** header, and a static host can't do that. A `_headers` file on Cloudflare Pages only sets *response* headers by path — it can't look at what the client asked for. So for years the answer was "use a real server."
 
-You don't need one. This post shows how to do it on Hugo + Cloudflare Pages, entirely on the **free plan**, with:
+Cloudflare offers a path here, too: a [`toMarkdown` conversion](https://developers.cloudflare.com/workers-ai/features/markdown-conversion/) utility on Workers AI that turns documents into Markdown on demand. It's a fine tool, but a different job — it converts *arbitrary files* at request time (and image conversions can dip into Workers AI billing), and it means adding a Workers AI binding as a dependency. For serving your own site's pages, you don't need it.
+
+You don't need any of that. This post shows how to do it on Hugo + Cloudflare Pages, entirely on the **free plan**, with:
 
 1. Hugo emitting a `.md` twin of every page at build time, and
 2. One small Cloudflare Pages Function that swaps HTML for Markdown when — and only when — a client asks for it.
