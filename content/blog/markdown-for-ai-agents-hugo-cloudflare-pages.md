@@ -16,7 +16,7 @@ You don't need one. This post shows how to do it on Hugo + Cloudflare Pages, ent
 The end result:
 
 ```console
-$ curl -sD- -H 'Accept: text/markdown' https://www.sumeetnaik.com/blog/
+$ curl -sD- -H 'Accept: text/markdown' https://sumeetnaik.com/blog/
 HTTP/2 200
 content-type: text/markdown; charset=utf-8
 vary: accept

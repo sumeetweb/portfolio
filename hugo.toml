@@ -1,4 +1,4 @@
-baseURL = "https://www.sumeetnaik.com/"
+baseURL = "https://sumeetnaik.com/"
 locale = "en-US"
 title = "Sumeet Naik"
 publishDir = "public"

@@ -54,7 +54,7 @@ auto-detects the `functions/` dir). Markdown responses carry
 token count. Verify against a deployment:
 
 ```sh
-curl -sD- -H 'Accept: text/markdown' https://www.sumeetnaik.com/blog/ | head
+curl -sD- -H 'Accept: text/markdown' https://sumeetnaik.com/blog/ | head
 ```
 
 ## License
