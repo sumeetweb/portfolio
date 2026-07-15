@@ -11,6 +11,7 @@ enableRobotsTXT = true
 
 [params]
   name = "Sumeet Naik"
+  googleAnalytics = "G-S2HH5B6KNR"
   role = "Backend Engineer"
   description = "Sumeet Naik is a backend engineer building APIs, distributed systems, and cloud infrastructure. Writing on backend systems, self-hosting, and AI-assisted development."
   twitterHandle = "@sumeetweb"
