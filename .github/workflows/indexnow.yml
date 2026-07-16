@@ -1,0 +1,98 @@
+name: IndexNow
+
+# Notifies IndexNow (Bing, Yandex, Naver, Seznam, Yep, Amazon) when content is
+# published or changed, so search engines re-crawl in minutes instead of days.
+#
+# Runs alongside Cloudflare Pages' own Git deploy (does not replace it) — this
+# job only pings the IndexNow API. On push it submits just the URLs whose
+# content files changed; run it manually (workflow_dispatch) to backfill every
+# URL from the live sitemap.
+#
+# The key below is public by design: it is also served at
+# https://sumeetnaik.com/<key>.txt (see static/<key>.txt) to prove ownership.
+
+on:
+  push:
+    branches: [main]
+    paths: ['content/**']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: indexnow
+  cancel-in-progress: false
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    env:
+      INDEXNOW_KEY: 41233ca0150b145fadff6b5f261d12b4
+      HOST: sumeetnaik.com
+      BASE: https://sumeetnaik.com
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # need the before/after commits to diff
+
+      - name: Resolve URLs to submit
+        id: urls
+        run: |
+          set -euo pipefail
+
+          # content path -> public URL (Hugo default permalinks; no custom
+          # slugs or [permalinks] block in hugo.toml). Reads "STATUS<TAB>path".
+          map_to_url() {
+            local st path rel
+            while IFS=$'\t' read -r st path; do
+              [ -n "$path" ] || continue
+              rel="${path#content/}"; rel="${rel%.md}"
+              case "$rel" in
+                _index)   echo "$BASE/" ;;
+                */_index) echo "$BASE/${rel%/_index}/" ;;
+                *)        echo "$BASE/$rel/" ;;
+              esac
+            done
+          }
+
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "Backfill: reading URLs from live sitemap"
+            curl -sS "$BASE/sitemap.xml" | grep -oE 'https://[^<]+' | sort -u > urls.txt
+          else
+            BEFORE='${{ github.event.before }}'
+            AFTER='${{ github.sha }}'
+            # First push / force-push / missing parent -> fall back to HEAD~1.
+            if [ "$BEFORE" = "0000000000000000000000000000000000000000" ] \
+               || ! git cat-file -e "${BEFORE}^{commit}" 2>/dev/null; then
+              BEFORE="$(git rev-parse HEAD~1 2>/dev/null || echo "$AFTER")"
+            fi
+            # A=added, M=modified, D=deleted (deleting pings the 404 so engines
+            # drop the page). Renames (R) are rare for content and skipped.
+            git diff --name-status --diff-filter=AMD "$BEFORE" "$AFTER" -- content/ \
+              | map_to_url | sort -u > urls.txt
+          fi
+
+          echo "Resolved URLs:"; cat urls.txt || true
+          echo "count=$(wc -l < urls.txt | tr -d ' ')" >> "$GITHUB_OUTPUT"
+
+      - name: Submit to IndexNow
+        if: steps.urls.outputs.count != '0'
+        run: |
+          set -euo pipefail
+          BODY="$(jq -Rn \
+            --arg host "$HOST" \
+            --arg key "$INDEXNOW_KEY" \
+            --arg kl "$BASE/$INDEXNOW_KEY.txt" \
+            '{host:$host, key:$key, keyLocation:$kl, urlList:[inputs | select(length>0)]}' \
+            < urls.txt)"
+          echo "Payload: $BODY"
+          code=$(curl -sS -o resp.txt -w '%{http_code}' \
+            -X POST "https://api.indexnow.org/indexnow" \
+            -H "Content-Type: application/json; charset=utf-8" \
+            -d "$BODY")
+          echo "HTTP $code"; cat resp.txt || true
+          case "$code" in
+            200|202) echo "IndexNow accepted the submission." ;;
+            *) echo "IndexNow submission failed (HTTP $code)"; exit 1 ;;
+          esac
