@@ -12,7 +12,7 @@
   document.documentElement.dataset.theme = t;
 })();
 </script>
-<!-- keep in sync with --bg/--fg in styles.css: paints correct colors before that external stylesheet loads -->
+<!-- keep in sync with --bg/--fg in styles.css: paints correct colors immediately, before the rest of the CSS is parsed -->
 <style>
   html { transition: background 0.2s ease, color 0.2s ease; }
   html[data-theme="dark"] { background: #131312; color: #e9e7e2; color-scheme: dark; }
@@ -79,19 +79,39 @@
 -}}
 <script type="application/ld+json">{{ $post | jsonify | safeJS }}</script>
 {{ end }}
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ "styles.css" | relURL }}">
+<!-- Self-hosted fonts: preload the faces used above the fold (Sans latin covers 400/500/600; Mono 400 for nav/eyebrow). Others load on demand via @font-face in the inlined CSS. -->
+<link rel="preload" href="{{ "fonts/plex-sans-latin.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{{ "fonts/plex-mono-400-latin.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
+{{- with resources.Get "css/styles.css" }}
+<style>{{ (. | minify).Content | safeCSS }}</style>
+{{- end }}
 <link rel="alternate" type="application/rss+xml" title="{{ .Site.Title }}" href="{{ "rss.xml" | relURL }}">
 {{ if and hugo.IsProduction .Site.Params.googleAnalytics }}
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id={{ .Site.Params.googleAnalytics }}"></script>
+<!-- Google tag (gtag.js), loaded lazily on first interaction (or idle) to keep it off the critical path -->
 <script>
+(function () {
+  var id = '{{ .Site.Params.googleAnalytics }}';
   window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
+  function gtag(){ dataLayer.push(arguments); }
+  window.gtag = gtag;
   gtag('js', new Date());
-
-  gtag('config', '{{ .Site.Params.googleAnalytics }}');
+  gtag('config', id);
+  var loaded = false;
+  function load() {
+    if (loaded) return;
+    loaded = true;
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + id;
+    document.head.appendChild(s);
+  }
+  ['scroll', 'pointerdown', 'keydown', 'touchstart', 'mousemove'].forEach(function (e) {
+    window.addEventListener(e, load, { once: true, passive: true });
+  });
+  // Fallback so pageviews from non-interacting visits still register, after the LCP/TBT window.
+  window.addEventListener('load', function () {
+    (window.requestIdleCallback || function (f){ setTimeout(f, 6000); })(load, { timeout: 6000 });
+  });
+})();
 </script>
 {{ end }}
