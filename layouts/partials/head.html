@@ -106,10 +106,14 @@
     s.src = 'https://www.googletagmanager.com/gtag/js?id=' + id;
     document.head.appendChild(s);
   }
-  // Interaction-only: keeps gtag.js fully off the load path. Pageviews for non-interacting
-  // visits are still captured by Cloudflare Web Analytics.
+  // Load on first interaction, whichever comes first...
   ['scroll', 'pointerdown', 'keydown', 'touchstart', 'mousemove'].forEach(function (e) {
     window.addEventListener(e, load, { once: true, passive: true });
+  });
+  // ...otherwise during idle after load, so non-interacting visits are still counted
+  // without gtag.js touching the LCP/TBT window.
+  window.addEventListener('load', function () {
+    (window.requestIdleCallback || function (f) { setTimeout(f, 2500); })(load, { timeout: 2500 });
   });
 })();
 </script>
