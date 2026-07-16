@@ -169,7 +169,7 @@ body { margin: 0; -webkit-font-smoothing: antialiased; }
   font-size: 12px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--accent-ink); /* AA contrast: --accent (#2f6df0) is ~4.48:1 on light bg, just under 4.5 */
   margin: 0 0 12px;
 }
 

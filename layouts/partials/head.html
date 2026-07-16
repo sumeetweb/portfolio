@@ -82,6 +82,7 @@
 <!-- Self-hosted fonts: preload the faces used above the fold (Sans latin covers 400/500/600; Mono 400 for nav/eyebrow). Others load on demand via @font-face in the inlined CSS. -->
 <link rel="preload" href="{{ "fonts/plex-sans-latin.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="{{ "fonts/plex-mono-400-latin.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{{ "fonts/plex-mono-500-latin.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
 {{- with resources.Get "css/styles.css" }}
 <style>{{ (. | minify).Content | safeCSS }}</style>
 {{- end }}
@@ -105,12 +106,10 @@
     s.src = 'https://www.googletagmanager.com/gtag/js?id=' + id;
     document.head.appendChild(s);
   }
+  // Interaction-only: keeps gtag.js fully off the load path. Pageviews for non-interacting
+  // visits are still captured by Cloudflare Web Analytics.
   ['scroll', 'pointerdown', 'keydown', 'touchstart', 'mousemove'].forEach(function (e) {
     window.addEventListener(e, load, { once: true, passive: true });
-  });
-  // Fallback so pageviews from non-interacting visits still register, after the LCP/TBT window.
-  window.addEventListener('load', function () {
-    (window.requestIdleCallback || function (f){ setTimeout(f, 6000); })(load, { timeout: 6000 });
   });
 })();
 </script>
