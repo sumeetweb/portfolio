@@ -4,9 +4,12 @@ name: IndexNow
 # published or changed, so search engines re-crawl in minutes instead of days.
 #
 # Runs alongside Cloudflare Pages' own Git deploy (does not replace it) — this
-# job only pings the IndexNow API. On push it submits just the URLs whose
-# content files changed; run it manually (workflow_dispatch) to backfill every
-# URL from the live sitemap.
+# job only pings the IndexNow API. It builds the site with Hugo so the
+# generated sitemap.xml is the authoritative list of crawlable URLs; this
+# automatically excludes non-rendered pages (e.g. the projects section's
+# `build.render: never` cascade), drafts, and future-dated posts. On push it
+# submits only the changed URLs; run it manually (workflow_dispatch) to backfill
+# every published URL.
 #
 # The key below is public by design: it is also served at
 # https://sumeetnaik.com/<key>.txt (see static/<key>.txt) to prove ownership.
@@ -35,30 +38,41 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0 # need the before/after commits to diff
+          submodules: recursive # in case a theme is vendored as a submodule
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: latest
+          extended: true
+
+      - name: Build site
+        run: hugo --gc --minify
 
       - name: Resolve URLs to submit
         id: urls
         run: |
           set -euo pipefail
 
-          # content path -> public URL (Hugo default permalinks; no custom
-          # slugs or [permalinks] block in hugo.toml). Reads "STATUS<TAB>path".
-          map_to_url() {
-            local st path rel
-            while IFS=$'\t' read -r st path; do
-              [ -n "$path" ] || continue
-              rel="${path#content/}"; rel="${rel%.md}"
-              case "$rel" in
-                _index)   echo "$BASE/" ;;
-                */_index) echo "$BASE/${rel%/_index}/" ;;
-                *)        echo "$BASE/$rel/" ;;
-              esac
-            done
+          # Authoritative set of crawlable URLs Hugo actually publishes.
+          grep -oE '<loc>[^<]+</loc>' public/sitemap.xml \
+            | sed -E 's#</?loc>##g' | sort -u > sitemap.txt
+          echo "Published URLs in sitemap: $(wc -l < sitemap.txt | tr -d ' ')"
+
+          # content file path -> public URL (Hugo default permalinks; no custom
+          # slugs or [permalinks] block in hugo.toml).
+          path_to_url() {
+            local rel="${1#content/}"; rel="${rel%.md}"
+            case "$rel" in
+              _index)   echo "$BASE/" ;;
+              */_index) echo "$BASE/${rel%/_index}/" ;;
+              *)        echo "$BASE/$rel/" ;;
+            esac
           }
 
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "Backfill: reading URLs from live sitemap"
-            curl -sS "$BASE/sitemap.xml" | grep -oE 'https://[^<]+' | sort -u > urls.txt
+            echo "Backfill: submitting every published URL"
+            cp sitemap.txt urls.txt
           else
             BEFORE='${{ github.event.before }}'
             AFTER='${{ github.sha }}'
@@ -67,13 +81,22 @@ jobs:
                || ! git cat-file -e "${BEFORE}^{commit}" 2>/dev/null; then
               BEFORE="$(git rev-parse HEAD~1 2>/dev/null || echo "$AFTER")"
             fi
-            # A=added, M=modified, D=deleted (deleting pings the 404 so engines
-            # drop the page). Renames (R) are rare for content and skipped.
-            git diff --name-status --diff-filter=AMD "$BEFORE" "$AFTER" -- content/ \
-              | map_to_url | sort -u > urls.txt
+
+            : > urls.txt
+            # Added/modified: keep only URLs Hugo actually publishes (drops
+            # render:never pages, drafts, future-dated posts).
+            git diff --name-status --diff-filter=AM "$BEFORE" "$AFTER" -- content/ \
+              | while IFS=$'\t' read -r st path; do [ -n "$path" ] && path_to_url "$path"; done \
+              | sort -u | grep -Fxf sitemap.txt >> urls.txt || true
+            # Deleted: ping the now-404 URL so engines drop it. It is (correctly)
+            # no longer in the sitemap, so it is added without the filter above.
+            git diff --name-status --diff-filter=D "$BEFORE" "$AFTER" -- content/ \
+              | while IFS=$'\t' read -r st path; do [ -n "$path" ] && path_to_url "$path"; done \
+              >> urls.txt || true
+            sort -u urls.txt -o urls.txt
           fi
 
-          echo "Resolved URLs:"; cat urls.txt || true
+          echo "Resolved URLs to submit:"; cat urls.txt || true
           echo "count=$(wc -l < urls.txt | tr -d ' ')" >> "$GITHUB_OUTPUT"
 
       - name: Submit to IndexNow
