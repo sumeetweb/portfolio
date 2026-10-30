@@ -8,7 +8,7 @@
   </div>
   <div class="hero-toolkit">
   {{ $technologies := slice }}
-  {{ range hugo.Data.technologies.groups }}
+  {{ range site.Data.technologies.groups }}
     {{ $group := .name }}
     {{ range .items }}{{ $technologies = $technologies | append (merge . (dict "group" $group)) }}{{ end }}
   {{ end }}

@@ -5,7 +5,7 @@ Role: {{ site.Params.role }}
 {{ site.Params.description }}
 
 ## Technologies used
-{{ range hugo.Data.technologies.groups }}
+{{ range site.Data.technologies.groups }}
 - {{ .name }}: {{ range $i, $item := .items }}{{ if $i }}, {{ end }}{{ $item.name }}{{ end }}
 {{ end }}
 ## Pages

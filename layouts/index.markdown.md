@@ -5,7 +5,7 @@
 I build APIs, automate infrastructure, and turn ideas into useful software.
 
 ## Technologies
-{{ range hugo.Data.technologies.groups }}
+{{ range site.Data.technologies.groups }}
 - {{ .name }}: {{ range $i, $item := .items }}{{ if $i }}, {{ end }}{{ $item.name }}{{ end }}
 {{ end }}
 ## Pages
