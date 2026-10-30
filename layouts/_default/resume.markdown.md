@@ -18,8 +18,6 @@ _{{ .Params.note }}_
 
 {{ delimit .items ", " }}
 {{ end }}
-{{ .RawContent }}
-
 ## Education
 
 {{ .Params.education.degree }} · {{ .Params.education.dateRange }}
@@ -29,8 +27,4 @@ _{{ .Params.note }}_
 ## Achievements
 
 {{ range .Params.achievements }}- {{ . }}
-{{ end }}
-## Communities
-
-{{ range .Params.communities }}- {{ . }}
 {{ end }}

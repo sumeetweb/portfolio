@@ -4,9 +4,7 @@
 {{ range .Params.jobs }}<section class="resume-job"><div class="job-head"><h3>{{ .title }}</h3><span class="job-date">{{ .dateRange }}</span></div><p class="job-meta">{{ .meta }}</p><div class="prose"><ul>{{ range .points }}<li>{{ . }}</li>{{ end }}</ul></div></section>{{ end }}
 <h2 class="section-title">Technical skills</h2>
 {{ range .Params.skillGroups }}<section class="resume-job"><h3>{{ .heading }}</h3><ul class="skill-list">{{ range .items }}<li>{{ . }}</li>{{ end }}</ul></section>{{ end }}
-<div class="prose">{{ .Content }}</div>
 <h2 class="section-title">Education</h2><p>{{ .Params.education.degree }} · {{ .Params.education.dateRange }}</p><p>{{ .Params.education.institution }} · {{ .Params.education.result }}</p>
 <h2 class="section-title">Achievements</h2><div class="prose"><ul>{{ range .Params.achievements }}<li>{{ . }}</li>{{ end }}</ul></div>
-<h2 class="section-title">Communities</h2><div class="prose"><ul>{{ range .Params.communities }}<li>{{ . }}</li>{{ end }}</ul></div>
 <p class="section-title"><a class="text-link" href="mailto:{{ site.Params.email }}">{{ site.Params.email }} {{ partial "arrow.html" . }}</a></p>
 </article>{{ end }}

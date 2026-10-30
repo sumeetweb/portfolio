@@ -1,0 +1,50 @@
+[[items]]
+id = "codex-rpi-connect"
+name = "Codex RPi Connect"
+status = "Pre-release"
+summary = "A local Codex/MCP plugin for shell commands, asynchronous jobs, and project-file operations through Raspberry Pi Connect’s browser terminal. Live-device validation is still pending."
+stack = ["Node.js", "Python", "Playwright", "MCP"]
+source = "https://github.com/sumeetweb/codex-rpi-connect"
+
+[[items]]
+id = "pakkapix"
+name = "PakkaPix"
+summary = "Prepares photos and signatures for application forms with exact size, format, and DPI requirements. Image processing stays in the browser, with Cloudflare Workers and D1 powering exam presets."
+stack = ["JavaScript", "Cloudflare Workers", "D1", "PWA"]
+source = "https://github.com/sumeetweb/PakkaPix"
+
+[[items]]
+id = "thinki-downloader"
+name = "Thinki Downloader"
+summary = "A utility for saving enrolled Thinkific courses for personal offline use. Handles videos, notes, quizzes, presentations, and shared files, with Docker and FFmpeg support."
+stack = ["PHP", "Docker", "FFmpeg"]
+source = "https://github.com/sumeetweb/Thinki-Downloader"
+
+[[items]]
+id = "hermes-content-pipeline"
+name = "Hermes Content Pipeline"
+summary = "Turns notes and trade-offs from Hermes Agent sessions into LinkedIn, Twitter, and blog drafts, then delivers them to Telegram for review and refinement."
+stack = ["Python", "Hermes Agent", "Telegram"]
+source = "https://github.com/sumeetweb/hermes-content-pipeline"
+
+[[items]]
+id = "toonpaste"
+name = "ToonPaste"
+summary = "A Chrome extension that converts clipboard JSON to TOON format with a keyboard shortcut. Conversion happens locally, with configurable formatting and a clipboard fallback."
+stack = ["JavaScript", "Chrome Extensions", "TOON"]
+source = "https://github.com/sumeetweb/ToonPaste"
+
+[[items]]
+id = "travelmate-ai"
+name = "TravelMate AI"
+summary = "An AI travel planner using Redis vector search and semantic caching to reuse similar requests. Includes streaming itinerary updates, interactive maps, and session-aware follow-up queries."
+stack = ["Express.js", "Next.js", "Redis Stack", "OpenAI", "SSE"]
+source = "https://github.com/sumeetweb/TravelMate-Redis-AI"
+
+[[items]]
+id = "modelforge"
+name = "ModelForge"
+summary = "A local ML serving and observability project with an inference service, gateway, and telemetry console. Explores versioned model releases, canary routing, and rollback."
+stack = ["Python", "TypeScript", "FastAPI", "Fastify", "Docker", "OpenTelemetry"]
+source = "https://github.com/sumeetweb/modelforge"
+details = "/projects/modelforge/"

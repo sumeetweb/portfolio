@@ -1,13 +1,9 @@
 +++
-title = "Projects"
-description = "ModelForge: Sumeet Naik's ML inference and observability platform, with FastAPI, TypeScript canary routing, model release validation, and AWS CDK infrastructure."
-date = "2026-10-30"
-author = "Sumeet Naik"
+title = "ModelForge"
+description = "A local ML inference and observability platform exploring model serving, canary releases, and operational telemetry."
 +++
 
-## ModelForge
-
-### ML Inference & Observability Platform
+## ML Inference & Observability Platform
 
 A personal project for exploring ML model serving and operations. An ML model needs more than a prediction endpoint. ModelForge explores how to validate a model release, route traffic between versions, isolate failures, and see what the services are doing.
 

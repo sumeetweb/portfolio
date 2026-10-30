@@ -37,7 +37,11 @@ icon = "sqlalchemy.svg"
 
 The homepage places technologies in two concentric rings around the portrait, to the right of the introduction on desktop and below it on mobile. Positions are calculated from the number of items. Add a new `[[groups]]` with a `name` to create another category. Hover, keyboard focus, or tap reveals the technology and category below the circle; every button also has an accessible name. The circle stays stationary. Review the smallest supported viewport after adding items so the targets stay separated. For an entirely monochrome black icon, set `monochrome = true` to invert it in dark mode. For a multi-color logo requiring a dark variant, use `dark_icon = "name-dark.svg"`.
 
-Logos come from [Devicon](https://github.com/devicons/devicon). The list describes tools used hands-on, not a proficiency rating. MLOps experience is described accurately as exploration on About and Resume.
+Logos come from [Devicon](https://github.com/devicons/devicon) and the Hono project. The list describes tools used hands-on, not a proficiency rating. MLOps experience is described as exploration on About and the ModelForge page.
+
+## Update projects
+
+Edit `data/projects.toml` to add a project name, short summary, stack, and source URL. The Projects page and its Markdown representation use the same data. Optional `status` and `details` fields add a maturity note and a link to a longer write-up. ModelForge’s existing technical write-up is in `content/projects/modelforge.md`.
 
 ## Add a short note
 

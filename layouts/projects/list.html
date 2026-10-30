@@ -1,0 +1,15 @@
+{{ define "content" }}
+<article class="page-article projects-page">
+  <header class="page-heading"><h1>{{ .Title }}</h1><p class="page-intro">{{ .Description }}</p></header>
+  <div class="project-list">
+    {{ range site.Data.projects.items }}
+    <section class="project-entry" aria-labelledby="project-{{ .id }}">
+      <div class="project-title"><h2 id="project-{{ .id }}">{{ .name }}</h2>{{ with .status }}<span class="project-status">{{ . }}</span>{{ end }}</div>
+      <p class="project-summary">{{ .summary }}</p>
+      <ul class="project-stack" aria-label="{{ .name }} technologies">{{ range .stack }}<li>{{ . }}</li>{{ end }}</ul>
+      <div class="project-links"><a class="text-link" href="{{ .source }}" aria-label="{{ .name }} source code">Source code {{ partial "arrow.html" $ }}</a>{{ with .details }}<a class="text-link" href="{{ . | relURL }}">Project details {{ partial "arrow.html" $ }}</a>{{ end }}</div>
+    </section>
+    {{ end }}
+  </div>
+</article>
+{{ end }}

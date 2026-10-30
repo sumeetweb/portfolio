@@ -11,7 +11,7 @@ I’ve worked with PostgreSQL, DynamoDB, MongoDB, and Redis, and use AWS, Cloudf
 
 I also work on web and mobile applications with React, Next.js, and React Native.
 
-Outside work, I’m exploring MLOps through [ModelForge](/projects/), where I experiment with model serving, release workflows, and observability.
+Outside work, I’m exploring MLOps through [ModelForge](/projects/modelforge/), where I experiment with model serving, release workflows, and observability.
 
 Away from work, I enjoy [reading](/bookshelf/) and running a small [homelab](/uses/). I graduated in Computer Science and Engineering from Silicon Institute of Technology in 2023.
 
