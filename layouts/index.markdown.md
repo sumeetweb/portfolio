@@ -1,24 +1,21 @@
-{{- /* Markdown representation of the home page. */ -}}
-# {{ .Site.Params.name }}
+# {{ site.Title }}
 
-_{{ .Site.Params.role }}_
+{{ site.Params.role }}
 
-{{ .Site.Params.heroTitle }}
+I build APIs, automate infrastructure, and turn ideas into useful software.
 
-{{ .Site.Params.intro }}
-
-{{ .Site.Params.introMuted }}
-
-## Current focus
-
-{{ range .Site.Params.focus }}- {{ .text }}
+## Technologies
+{{ range hugo.Data.technologies.groups }}
+- {{ .name }}: {{ range $i, $item := .items }}{{ if $i }}, {{ end }}{{ $item.name }}{{ end }}
 {{ end }}
 ## Pages
 
-{{ range .Site.Menus.main }}- [{{ .Name }}]({{ .URL }})
+{{ range site.Menus.main }}- [{{ .Name }}]({{ .URL }})
 {{ end }}
-## Links
+- [About](/about/)
+- [Resume](/resume/)
+- [Now](/now/)
+- [Bookshelf](/bookshelf/)
+- [Uses](/uses/)
 
-- GitHub: {{ .Site.Params.github }}
-- X / Twitter: {{ .Site.Params.twitter }}
-- LinkedIn: {{ .Site.Params.linkedin }}
+[Get in touch](mailto:{{ site.Params.email }}) · [GitHub]({{ site.Params.github }})

@@ -1,14 +1,1 @@
-{{ define "main" }}
-<section class="screen" data-page="blog-post" aria-label="{{ .Title }}">
-  <a href="{{ .Parent.RelPermalink }}" class="back-link">← Blog</a>
-  <h1 class="page-title mb-6">{{ .Title }}</h1>
-  <p class="post-meta">{{ .Date.Format "January 2, 2006" }}</p>
-  {{ with .Params.image }}
-  <img class="post-cover" src="{{ . | relURL }}" alt="{{ $.Title }}" width="1200" height="630" loading="lazy" decoding="async">
-  {{ end }}
-  <div class="post-content">
-    {{ .Content }}
-  </div>
-  {{ partial "giscus.html" . }}
-</section>
-{{ end }}
+{{ define "content" }}<article class="page-article blog-post"><header class="page-heading"><a class="back-link" href="{{ "blog/" | relURL }}">Back to blog</a><h1>{{ .Title }}</h1><time class="post-date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2 January 2006" }}</time></header><div class="prose">{{ .Content }}</div></article>{{ end }}

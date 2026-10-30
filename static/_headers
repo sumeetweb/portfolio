@@ -6,7 +6,7 @@
 # the feed and sitemap use their standard registered relations.
 
 /*
-  Link: </agents.md>; rel="describedby"; type="text/markdown", </rss.xml>; rel="alternate"; type="application/rss+xml", </sitemap.xml>; rel="sitemap"; type="application/xml"
+  Link: </agents.md>; rel="describedby"; type="text/markdown", </index.xml>; rel="alternate"; type="application/rss+xml", </sitemap.xml>; rel="sitemap"; type="application/xml"
   Vary: Accept
 
 # Self-hosted fonts are content-hashed by weight/subset and never change; cache them forever.

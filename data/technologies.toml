@@ -1,0 +1,124 @@
+# Add an item under its group. The two rings are positioned automatically; review mobile spacing after additions.
+
+[[groups]]
+name = "Languages"
+
+[[groups.items]]
+name = "Python"
+icon = "python.svg"
+
+[[groups.items]]
+name = "TypeScript"
+icon = "typescript.svg"
+
+[[groups.items]]
+name = "JavaScript"
+icon = "javascript.svg"
+
+[[groups.items]]
+name = "Rust"
+icon = "rust.svg"
+monochrome = true
+
+[[groups]]
+name = "Backend & APIs"
+
+[[groups.items]]
+name = "Node.js"
+icon = "nodejs.svg"
+
+[[groups.items]]
+name = "GraphQL"
+icon = "graphql.svg"
+
+[[groups.items]]
+name = "FastAPI"
+icon = "fastapi.svg"
+
+[[groups.items]]
+name = "Express.js"
+icon = "express.svg"
+monochrome = true
+
+[[groups.items]]
+name = "Fastify"
+icon = "fastify.svg"
+monochrome = true
+
+[[groups.items]]
+name = "Hono"
+icon = "hono.svg"
+
+[[groups]]
+name = "Web & mobile"
+
+[[groups.items]]
+name = "React"
+icon = "react.svg"
+
+[[groups.items]]
+name = "Next.js"
+icon = "nextjs.svg"
+monochrome = true
+
+[[groups.items]]
+name = "React Native"
+icon = "react.svg"
+
+[[groups]]
+name = "Databases"
+
+[[groups.items]]
+name = "PostgreSQL"
+icon = "postgresql.svg"
+
+[[groups.items]]
+name = "Redis"
+icon = "redis.svg"
+
+[[groups.items]]
+name = "MongoDB"
+icon = "mongodb.svg"
+
+[[groups.items]]
+name = "DynamoDB"
+icon = "dynamodb.svg"
+
+[[groups]]
+name = "Cloud & delivery"
+
+[[groups.items]]
+name = "AWS"
+icon = "aws.svg"
+dark_icon = "aws-dark.svg"
+
+[[groups.items]]
+name = "Cloudflare"
+icon = "cloudflare.svg"
+
+[[groups.items]]
+name = "Docker"
+icon = "docker.svg"
+
+[[groups.items]]
+name = "Terraform"
+icon = "terraform.svg"
+
+[[groups.items]]
+name = "GitHub Actions"
+icon = "githubactions.svg"
+
+[[groups]]
+name = "Observability"
+
+[[groups.items]]
+name = "Prometheus"
+icon = "prometheus.svg"
+
+[[groups.items]]
+name = "Grafana"
+icon = "grafana.svg"
+
+[[groups.items]]
+name = "OpenTelemetry"
+icon = "opentelemetry.svg"

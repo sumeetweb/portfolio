@@ -1,35 +1,12 @@
-{{ define "main" }}
-<section class="screen" data-page="resume" aria-label="Resume">
-  <div class="row-between mb-6">
-    <h1 class="page-title">{{ .Title }}</h1>
-    <span class="resume-note">{{ .Params.note }}</span>
-  </div>
-  <p class="resume-sub">{{ .Params.sub }}</p>
-
-  <h2 class="section-label mb-14">Experience</h2>
-  {{ $jobs := .Params.jobs }}
-  {{ range $i, $job := $jobs }}
-  <div class="{{ if eq (add $i 1) (len $jobs) }}resume-job-last{{ else }}resume-job{{ end }}">
-    <div class="job-head">
-      <p class="job-title">{{ $job.title }}</p>
-      <span class="job-date">{{ $job.dateRange }}</span>
-    </div>
-    <p class="job-meta">{{ $job.meta }}</p>
-    <ul class="job-points">
-      {{ range $job.points }}<li>{{ . }}</li>{{ end }}
-    </ul>
-  </div>
-  {{ end }}
-
-  <h2 class="section-label mb-14">Skills</h2>
-  <div class="skill-row">
-    {{ range .Params.skills }}<span class="skill">{{ . }}</span>{{ end }}
-  </div>
-
-  <h2 class="section-label mb-14">Education</h2>
-  <div class="edu-row">
-    <p class="edu-degree">{{ .Params.education.degree }}</p>
-    <span class="edu-date">{{ .Params.education.dateRange }}</span>
-  </div>
-</section>
-{{ end }}
+{{ define "content" }}
+<article class="page-article"><header class="page-heading"><h1>Resume</h1><p class="page-intro">{{ .Params.sub }}</p></header>
+<h2>Experience</h2>
+{{ range .Params.jobs }}<section class="resume-job"><div class="job-head"><h3>{{ .title }}</h3><span class="job-date">{{ .dateRange }}</span></div><p class="job-meta">{{ .meta }}</p><div class="prose"><ul>{{ range .points }}<li>{{ . }}</li>{{ end }}</ul></div></section>{{ end }}
+<h2 class="section-title">Technical skills</h2>
+{{ range .Params.skillGroups }}<section class="resume-job"><h3>{{ .heading }}</h3><ul class="skill-list">{{ range .items }}<li>{{ . }}</li>{{ end }}</ul></section>{{ end }}
+<div class="prose">{{ .Content }}</div>
+<h2 class="section-title">Education</h2><p>{{ .Params.education.degree }} · {{ .Params.education.dateRange }}</p><p>{{ .Params.education.institution }} · {{ .Params.education.result }}</p>
+<h2 class="section-title">Achievements</h2><div class="prose"><ul>{{ range .Params.achievements }}<li>{{ . }}</li>{{ end }}</ul></div>
+<h2 class="section-title">Communities</h2><div class="prose"><ul>{{ range .Params.communities }}<li>{{ . }}</li>{{ end }}</ul></div>
+<p class="section-title"><a class="text-link" href="mailto:{{ site.Params.email }}">{{ site.Params.email }} {{ partial "arrow.html" . }}</a></p>
+</article>{{ end }}

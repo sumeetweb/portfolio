@@ -1,0 +1,41 @@
+<section class="hero" aria-labelledby="profile-name">
+  <div class="hero-copy">
+    <h1 id="profile-name">Sumeet Naik<span class="name-stop">.</span></h1>
+    <p class="hero-role">{{ site.Params.role }}</p>
+    <p class="hero-summary">I build APIs, automate infrastructure, and turn ideas into useful software.</p>
+    <div class="hero-links"><a class="button" href="mailto:{{ site.Params.email }}">Get in touch {{ partial "arrow.html" . }}</a><a class="text-link" href="{{ site.Params.github }}">GitHub {{ partial "arrow.html" . }}</a></div>
+    {{ partial "navigation.html" . }}
+  </div>
+  <div class="hero-toolkit">
+  {{ $technologies := slice }}
+  {{ range hugo.Data.technologies.groups }}
+    {{ $group := .name }}
+    {{ range .items }}{{ $technologies = $technologies | append (merge . (dict "group" $group)) }}{{ end }}
+  {{ end }}
+  {{ $outerCount := int (math.Ceil (mul (len $technologies) 0.64)) }}
+  {{ $innerCount := sub (len $technologies) $outerCount }}
+  <div class="technology-orbit">
+    <img class="orbit-portrait" src="{{ site.Params.avatar | relURL }}" width="136" height="136" alt="Sumeet Naik" fetchpriority="high">
+    <ul class="technology-list" aria-label="Technologies I work with">
+      {{ range $index, $technology := $technologies }}
+      {{ $ring := "outer" }}{{ $position := $index }}{{ $count := $outerCount }}
+      {{ if ge $index $outerCount }}{{ $ring = "inner" }}{{ $position = sub $index $outerCount }}{{ $count = $innerCount }}{{ end }}
+      {{ $angle := add -90 (mul $position (div 360.0 $count)) }}
+      <li class="technology orbit-{{ $ring }}" style="{{ printf "--angle: %gdeg" (float $angle) | safeCSS }}">
+        <button class="technology-button" type="button" aria-label="{{ .name }} — {{ .group }}" data-technology="{{ .name }}" data-group="{{ .group }}">
+        <span class="technology-mark">
+          <img {{ if .monochrome }}class="monochrome"{{ else if .dark_icon }}class="logo-light"{{ end }} src="{{ printf "images/technologies/%s" .icon | relURL }}" alt="" width="38" height="38" loading="lazy">
+          {{ with .dark_icon }}<img class="logo-dark" src="{{ printf "images/technologies/%s" . | relURL }}" alt="" width="38" height="38" loading="lazy">{{ end }}
+        </span><span class="technology-label">{{ .name }}</span>
+        </button>
+      </li>
+      {{ end }}
+    </ul>
+  </div>
+  <p class="technology-detail" id="technology-detail" aria-live="polite"></p>
+  </div>
+</section>
+<section class="home-section" aria-labelledby="writing-heading">
+  <div class="section-heading"><h2 id="writing-heading">From the blog</h2><a class="section-link" href="{{ "blog/" | relURL }}">All posts {{ partial "arrow.html" . }}</a></div>
+  <div class="article-grid">{{ range first 2 (where site.RegularPages "Section" "blog").ByDate.Reverse }}{{ partial "article-preview.html" . }}{{ end }}</div>
+</section>

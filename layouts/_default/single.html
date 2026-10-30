@@ -1,0 +1,3 @@
+{{ define "content" }}
+<article class="page-article"><header class="page-heading"><h1>{{ .Title }}</h1>{{ with .Description }}<p class="page-intro">{{ . }}</p>{{ end }}</header><div class="prose">{{ .Content }}</div></article>
+{{ end }}

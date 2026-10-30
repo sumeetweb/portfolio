@@ -1,0 +1,5 @@
+{{ define "content" }}
+<section class="page-article"><header class="page-heading"><h1>{{ .Title }}</h1>{{ with .Params.lead }}<p class="page-intro">{{ . }}</p>{{ end }}</header>
+{{ with .Content }}<div class="prose">{{ . }}</div>{{ end }}
+<div class="article-list">{{ range .Pages.ByDate.Reverse }}{{ partial "article-preview.html" . }}{{ end }}</div></section>
+{{ end }}

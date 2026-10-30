@@ -1,4 +1,3 @@
-{{- /* Markdown representation of the front-matter-driven Resume page. */ -}}
 # {{ .Title }}
 
 {{ .Params.sub }}
@@ -9,14 +8,29 @@ _{{ .Params.note }}_
 {{ range .Params.jobs }}
 ### {{ .title }}
 
-_{{ .dateRange }}_ — {{ .meta }}
+{{ .dateRange }} · {{ .meta }}
 
 {{ range .points }}- {{ . }}
 {{ end }}{{ end }}
-## Skills
+## Technical skills
+{{ range .Params.skillGroups }}
+### {{ .heading }}
 
-{{ delimit .Params.skills ", " }}
+{{ delimit .items ", " }}
+{{ end }}
+{{ .RawContent }}
 
 ## Education
 
-{{ .Params.education.degree }} ({{ .Params.education.dateRange }})
+{{ .Params.education.degree }} · {{ .Params.education.dateRange }}
+
+{{ .Params.education.institution }} · {{ .Params.education.result }}
+
+## Achievements
+
+{{ range .Params.achievements }}- {{ . }}
+{{ end }}
+## Communities
+
+{{ range .Params.communities }}- {{ . }}
+{{ end }}

@@ -1,11 +1,8 @@
 <footer class="site-footer">
-  <span class="copyright">© {{ now.Format "2006" }} {{ .Site.Params.name }}</span>
-  <div class="footer-links">
-    <a href="{{ .Site.Params.github }}" target="_blank" rel="noopener" class="footer-link">GitHub</a>
-    <a href="{{ .Site.Params.twitter }}" target="_blank" rel="noopener" class="footer-link">X</a>
-    <a href="{{ .Site.Params.linkedin }}" target="_blank" rel="noopener" class="footer-link">LinkedIn</a>
-    <a href="{{ "rss.xml" | relURL }}" class="footer-link">RSS</a>
-    <a href="{{ .Site.Params.kofi }}" target="_blank" rel="noopener" class="footer-link">Ko-fi</a>
-    <a href="{{ "agents.md" | relURL }}" title="Machine-readable summary for AI agents" class="footer-link-accent">agents.md · for AI agents</a>
+  <nav class="footer-pages" aria-label="More about Sumeet">
+    <a href="{{ "about/" | relURL }}">About</a><a href="{{ "bookshelf/" | relURL }}">Bookshelf</a><a href="{{ "uses/" | relURL }}">Uses</a><a href="{{ "now/" | relURL }}">Now</a><a href="{{ "resume/" | relURL }}">Resume</a>
+  </nav>
+  <div class="footer-bottom"><p>© {{ now.Year }} Sumeet Naik</p>
+    <nav aria-label="Elsewhere"><a href="{{ site.Params.github }}">GitHub</a><a href="{{ site.Params.linkedin }}">LinkedIn</a><a href="{{ "index.xml" | relURL }}">RSS</a></nav>
   </div>
 </footer>

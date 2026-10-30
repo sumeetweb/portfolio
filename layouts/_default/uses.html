@@ -1,15 +1,1 @@
-{{ define "main" }}
-<section class="screen" data-page="uses" aria-label="Uses">
-  <h1 class="page-title mb-6">{{ .Title }}</h1>
-  <p class="lead">{{ .Params.lead }}</p>
-  {{ $groups := .Params.groups }}
-  {{ range $i, $g := $groups }}
-  <h2 class="section-label mb-10">{{ $g.heading }}</h2>
-  <ul class="uses-list{{ if eq (add $i 1) (len $groups) }} uses-list--last{{ end }}">
-    {{ range $g.items }}
-    <li class="uses-item"><span class="uses-key">{{ .key }}</span><span>{{ .value }}</span></li>
-    {{ end }}
-  </ul>
-  {{ end }}
-</section>
-{{ end }}
+{{ define "content" }}<article class="page-article"><header class="page-heading"><h1>Uses</h1><p class="page-intro">{{ .Params.lead }}</p></header>{{ range .Params.groups }}<section class="uses-group"><h2>{{ .heading }}</h2><dl class="uses-list">{{ range .items }}<div class="uses-item"><dt>{{ .key }}</dt><dd>{{ .value }}</dd></div>{{ end }}</dl></section>{{ end }}</article>{{ end }}

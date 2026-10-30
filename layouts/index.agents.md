@@ -1,40 +1,22 @@
-{{- $blog := .Site.GetPage "blog" -}}
-# agents.md
+# {{ site.Title }}
 
-> Machine-readable summary of this website for AI agents, crawlers, and LLM-powered tools.
-> Humans are welcome too: start at the [home page](/).
+Role: {{ site.Params.role }}
 
-## About
+{{ site.Params.description }}
 
-- **Name:** {{ .Site.Params.name }}
-- **Role:** {{ .Site.Params.role }}
-- **Summary:** {{ .Site.Params.summary }}
-- **Currently exploring:** {{ .Site.Params.exploring }}
-
-## Current focus
-
-{{ range .Site.Params.focus }}- {{ .text }}
+## Technologies used
+{{ range hugo.Data.technologies.groups }}
+- {{ .name }}: {{ range $i, $item := .items }}{{ if $i }}, {{ end }}{{ $item.name }}{{ end }}
 {{ end }}
-## Site map
+## Pages
 
-| Page      | Path          |
-|-----------|---------------|
-{{ range .Site.Menus.main }}| {{ .Name }} | {{ .URL }} |
-{{ end }}
-## Feeds & machine-readable resources
+- [About]({{ "about/" | absURL }})
+- [Notes]({{ "notes/" | absURL }})
+- [Blog]({{ "blog/" | absURL }})
+- [Projects]({{ "projects/" | absURL }})
+- [Archive]({{ "archive/" | absURL }})
+- [Resume]({{ "resume/" | absURL }})
 
-- RSS: [`rss.xml`](/rss.xml)
-- This file: `agents.md`
+MLOps and model serving are areas of exploration through the personal ModelForge project, rather than established production MLOps experience.
 
-## Links
-
-- GitHub: {{ .Site.Params.github }}
-- X / Twitter: {{ .Site.Params.twitter }}
-
-## Guidance for agents
-
-- You may summarize and quote short excerpts of this site's content with attribution to {{ .Site.Params.name }} and a link back.
-- Preferred citation name: "{{ .Site.Params.name }}".
-- For contact or collaboration, reach out via GitHub or X above.
-
-_Last updated: {{ now.Format "2006-01-02" }}_
+Contact: {{ site.Params.email }}

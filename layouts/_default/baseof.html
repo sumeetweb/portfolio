@@ -1,18 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  {{ partial "head.html" . }}
-</head>
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>{{ partial "head.html" . }}</head>
 <body>
-  <div class="page">
-    <div class="container">
-      {{ partial "header.html" . }}
-      <main class="main">
-        {{ block "main" . }}{{ end }}
-      </main>
-      {{ partial "footer.html" . }}
-    </div>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  {{ partial "float.html" . }}
+  <div class="site-shell">
+    {{ partial "header.html" . }}
+    <main id="main-content" tabindex="-1">{{ block "content" . }}{{ end }}</main>
+    {{ partial "footer.html" . }}
   </div>
-  <script src="{{ "script.js" | relURL }}" defer></script>
+  <div class="lamp-bloom" aria-hidden="true"></div>
+  <span class="sr-only" id="theme-status" role="status" aria-live="polite"></span>
+  {{ $script := resources.Get "js/portfolio.js" | minify | fingerprint }}
+  <script src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity }}" defer></script>
 </body>
 </html>
